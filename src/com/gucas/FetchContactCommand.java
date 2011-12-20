@@ -10,8 +10,10 @@ import android.provider.ContactsContract.PhoneLookup;
 import android.util.Log;
 
 public class FetchContactCommand extends BaseCommand {
-	public String mArgs;
+	
 	public static String mCommandName = "fc";
+	
+	private String mArgs;
 	public FetchContactCommand(String args) {
 		this.mArgs = args;
 	}
