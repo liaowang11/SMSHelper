@@ -3,5 +3,6 @@
 
     <string name="hello">Hello World, SMSHelperActivity!</string>
     <string name="app_name">SMSHelper</string>
+    <string name="setting">Settings</string>
 
 </resources>
