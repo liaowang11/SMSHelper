@@ -35,15 +35,20 @@ public class SMSService extends IntentService {
 		while(parser.hasNext()){
 			Pair<String, String> next = parser.next();
 			BaseCommand command = CommandManager.BuildCommand(pref, next.first, next.second);
-			Log.v(TAG,next.first +"," +next.second);
-			try{
-				result += command.Execute(cr);
-			}catch(AuthException e){
-				result = "Invalid Auth Code";
-				break; //No longer build commands.
+			if(command == null){
+				result = "Ill-formed Command.";
+				break;
+			}else{
+				Log.v(TAG,next.first +"," +next.second);
+				try{
+					result += command.Execute(cr);
+				}catch(AuthException e){
+					result = "Invalid Auth Code";
+					break; //No longer build commands.
+				}
+				//TODO:Insert History Here?
+				histo_db.insert(next.first + ":" + next.second, source_addr);
 			}
-			//TODO:Insert History Here?
-			histo_db.insert(next.first + ":" + next.second, source_addr);
 		}
 		Log.v(TAG, result);
 		SMSSender sender = new SMSSender(source_addr);

@@ -11,6 +11,8 @@ public class CommandManager {
 	public static BaseCommand BuildCommand(SharedPreferences pref, String command_name, String args){
 		if(command_name.equals(FetchContactCommand.mCommandName)){
 			return new FetchContactCommand(args);
+		}else if (command_name.equals(AuthCommand.mCommandName)) {
+			return new AuthCommand(args, pref);
 		}
 		//TODO: more commands to be added
 		//Maybe throw a exception if the corresponding Command is undefined?
