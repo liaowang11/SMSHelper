@@ -1,9 +1,12 @@
 package com.gucas;
 
 import android.app.ListActivity;
+import android.content.ComponentName;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -12,11 +15,11 @@ import android.widget.Button;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Toast;
 
-
 public class SMSHelperActivity extends ListActivity {
     /** Called when the activity is first created. */
 	private Button btnClear = null;
 	private HistoryDB histo_db = null;
+	public final static String TAG = "SMSHelperActivity";
 	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,7 +34,6 @@ public class SMSHelperActivity extends ListActivity {
         btnClear.setOnClickListener(new OnClickListener() {
 			
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
 				histo_db.clear();
 		        Cursor new_cursor = histo_db.query();
 		        SimpleCursorAdapter newListAdapter = new SimpleCursorAdapter(SMSHelperActivity.this,R.layout.iterm, new_cursor,new String[]{"_id","time","command","in_number"},new int[]{R.id.num,R.id.time,R.id.command,R.id.phone});
@@ -61,8 +63,11 @@ public class SMSHelperActivity extends ListActivity {
 			finish();
 		}
 		if(item.getItemId()== 2){
+			int flag = PackageManager.COMPONENT_ENABLED_STATE_DISABLED;
+			ComponentName component = new ComponentName(this, SMSReceiver.class);
+			getPackageManager().setComponentEnabledSetting(component, flag, PackageManager.DONT_KILL_APP);
+			Log.v(TAG, "Disable Service");
 			finish();
-			//TODO:add service turn off
 		}
 		if(item.getItemId()== 3){
 			Toast.makeText(SMSHelperActivity.this, "V1.1" +

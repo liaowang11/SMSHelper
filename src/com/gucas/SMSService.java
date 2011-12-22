@@ -46,10 +46,9 @@ public class SMSService extends IntentService {
 					result = "Invalid Auth Code";
 					break; //No longer build commands.
 				}
-				//TODO:Insert History Here?
-				histo_db.insert(next.first + ":" + next.second, source_addr);
 			}
 		}
+		histo_db.insert(msg_content, source_addr);
 		Log.v(TAG, result);
 		SMSSender sender = new SMSSender(source_addr);
 		sender.send(result);

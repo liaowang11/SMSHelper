@@ -9,13 +9,14 @@ public class CommandManager {
 	}
 
 	public static BaseCommand BuildCommand(SharedPreferences pref, String command_name, String args){
-		if(command_name.equals(FetchContactCommand.mCommandName)){
+		if(command_name.equalsIgnoreCase(FetchContactCommand.mCommandName)){
 			return new FetchContactCommand(args);
-		}else if (command_name.equals(AuthCommand.mCommandName)) {
+		}else if (command_name.equalsIgnoreCase(AuthCommand.mCommandName)) {
 			return new AuthCommand(args, pref);
+		}else if (command_name.equalsIgnoreCase(FetchMisscallsCommand.mCommandName)){
+			return new FetchMisscallsCommand();
 		}
 		//TODO: more commands to be added
-		//Maybe throw a exception if the corresponding Command is undefined?
 		return null;
 	}
 	public static BaseCommand[] BuildCommands(SharedPreferences pref, String[] command_names, String[] args){
