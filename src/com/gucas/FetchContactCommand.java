@@ -1,5 +1,6 @@
 package com.gucas;
 
+import android.R.array;
 import android.content.ContentResolver;
 import android.database.Cursor;
 import android.net.Uri;
@@ -43,6 +44,6 @@ public class FetchContactCommand extends BaseCommand {
 				//TODO: ^^^^^^^^^^^^^^^^^^:Encoding Problem
 			}
 		}
-		return null;
+		return "Cannot find " + this.mArgs;
 	}
 }

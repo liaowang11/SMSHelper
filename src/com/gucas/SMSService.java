@@ -26,6 +26,7 @@ public class SMSService extends IntentService {
 		ContentResolver cr = getContentResolver();
 		SharedPreferences pref = getSharedPreferences(SettingActivity.SHARED_MAIN, MODE_PRIVATE);
 		HistoryDB histo_db = new HistoryDB(this); 
+		boolean authenticated = false;
 		
 		try {
 			parser = new SMSParser(msg_content);
@@ -41,7 +42,7 @@ public class SMSService extends IntentService {
 			}else{
 				Log.v(TAG,next.first +"," +next.second);
 				try{
-					result += command.Execute(cr);
+					result += command.Execute(cr) + "|";
 				}catch(AuthException e){
 					result = "Invalid Auth Code";
 					break; //No longer build commands.
@@ -53,6 +54,7 @@ public class SMSService extends IntentService {
 		SMSSender sender = new SMSSender(source_addr);
 		sender.send(result);
 		Log.v(TAG, "Sended to " + source_addr);
+		histo_db.close();
 	}
 	
 }

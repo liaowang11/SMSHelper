@@ -14,14 +14,17 @@ public class SMSParser implements Iterator<Pair<String, String>>{
 		this.mMsg = msg_content;
 		this.mTokens = new ArrayList<Pair<String,String>>();
 		String[]commands = this.mMsg.split(";");
+		Pair<String, String> new_pair;
 		for (String command : commands) {
 			String[] command_components = command.split(":");
-			if(command_components.length < 2){
+			if(command_components.length == 0){
 				throw new ParseException();
+			}else if (command_components.length > 1){
+				new_pair = new Pair<String, String>(command_components[0], command_components[1]);
 			}else{
-				Pair<String, String> new_pair = new Pair<String, String>(command_components[0], command_components[1]);
-				mTokens.add(new_pair);
+				new_pair = new Pair<String, String>(command_components[0], "");
 			}
+			mTokens.add(new_pair);
 		}
 		this.mIter = mTokens.iterator();
 	}
