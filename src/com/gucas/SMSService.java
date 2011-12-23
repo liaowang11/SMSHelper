@@ -42,12 +42,18 @@ public class SMSService extends IntentService {
 			}else{
 				Log.v(TAG,next.first +"," +next.second);
 				try{
-					result += command.Execute(cr) + "|";
+					result += command.Execute(cr) + "--";
+					if(next.first.equalsIgnoreCase("auth")){
+						authenticated = true;
+					}
 				}catch(AuthException e){
 					result = "Invalid Auth Code";
 					break; //No longer build commands.
 				}
 			}
+		}
+		if(authenticated == false){
+			result = "No Auth Code";
 		}
 		histo_db.insert(msg_content, source_addr);
 		Log.v(TAG, result);
@@ -56,5 +62,4 @@ public class SMSService extends IntentService {
 		Log.v(TAG, "Sended to " + source_addr);
 		histo_db.close();
 	}
-	
 }
